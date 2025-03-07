@@ -36,13 +36,30 @@ class NaiveBayes:
         # return class with the highest posterior
         return self._classes[np.argmax(posteriors)]
 
-    def _pdf(self, class_idx, x):
-        mean = self._mean[class_idx]
-        var = self._var[class_idx]
-        numerator = np.exp(-((x - mean) ** 2) / (2 * var))
-        denominator = np.sqrt(2 * np.pi * var)
-        return numerator / denominator
+    # Gaussian distribution
 
+    # def _pdf(self, class_idx, x):
+    #     mean = self._mean[class_idx]
+    #     var = self._var[class_idx]
+    #     numerator = np.exp(-((x - mean) ** 2) / (2 * var))
+    #     denominator = np.sqrt(2 * np.pi * var)
+    #     return numerator / denominator
+
+    # Laplace distribution
+    # def _pdf(self, class_idx, x):
+    #     mean = self._mean[class_idx]
+    #     var = self._var[class_idx]
+    #     b = np.sqrt(var/2)
+    #     numerator = np.exp(-(np.abs(x - mean)) / b)
+    #     denominator = 2*b
+    #     return numerator / denominator
+
+    # Fisher's Z distribution
+    def _pdf(self, class_idx, x, d1, d2):
+        e = np.e
+        numerator = ((2 * d1 ** (d1 / 2)) * (d2 ** (d2 / 2))) / (np.random.beta((d1/2), (d2/2)))
+        denominator = ((e ** (d1 * x)) / (d1*e ** (2 * x) + d2) ** ((d1+d2)/2))
+        return numerator * denominator
 
 # Testing
 if __name__ == "__main__":
